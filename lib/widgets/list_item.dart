@@ -29,7 +29,7 @@ class ListItem extends StatelessWidget {
               child: Text(
                 this.title,
                 style: const TextStyle(
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w900,
                 ),
               ),
             ),

@@ -11,7 +11,7 @@ class MainPage extends StatefulWidget {
 }
 
 class MainPageState extends State<MainPage> {
-  String selectedDateTime = DateTime.now().toString().substring(0, 10);
+  String dateTime = DateTime.now().toString().substring(0, 10);
   List<Neo> neosContent = [];
 
   @override
@@ -31,13 +31,28 @@ class MainPageState extends State<MainPage> {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text('Near Earth Objects'),
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 5),
+                  child: Text('Near Earth Objects',
+                      style:
+                          TextStyle(fontWeight: FontWeight.w500, fontSize: 22)),
+                ),
+                Text(
+                  this.dateTime,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w500, fontSize: 16),
+                ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 30, bottom: 7),
+                  padding: const EdgeInsets.only(top: 15, bottom: 7),
                   child: ElevatedButton(
                     onPressed: () {
                       searchNeosByDate();
                     },
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(
+                        Colors.blueAccent,
+                      ),
+                    ),
                     child: const Text('Me mostre os NEOs de hoje'),
                   ),
                 ),
@@ -55,7 +70,7 @@ class MainPageState extends State<MainPage> {
   Future<void> searchNeosByDate() async {
     Requisiton req = Requisiton();
     showSnackBar('Solicitando dados...', 60, Colors.blueAccent);
-    List<Neo> response = await req.fetch(this.selectedDateTime!);
+    List<Neo> response = await req.fetch(this.dateTime);
     setState(() {
       ScaffoldMessenger.of(context).clearSnackBars();
       showSnackBar('NEOs encontrados!', 4, Colors.green);
@@ -67,7 +82,7 @@ class MainPageState extends State<MainPage> {
   void showInitialMessage() {
     Future.delayed(
       Duration.zero,
-          () => showDialog(
+      () => showDialog(
         context: context,
         builder: (context) => AlertDialog(
           title: const Text('Bem-vindo ao NEO'),
