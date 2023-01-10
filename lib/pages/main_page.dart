@@ -16,26 +16,7 @@ class MainPageState extends State<MainPage> {
 
   @override
   void initState() {
-    Future.delayed(
-      Duration.zero,
-      () => showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Bem-vindo ao NEO'),
-          content: const Text(
-            'Este aplicativo tem como objetivo informar quais os NEOs (Objetos Próximos da Terra) no dia de hoje.',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Entendi'),
-            ),
-          ],
-        ),
-      ),
-    );
+    showInitialMessage();
     super.initState();
   }
 
@@ -56,7 +37,6 @@ class MainPageState extends State<MainPage> {
                   child: ElevatedButton(
                     onPressed: () {
                       searchNeosByDate();
-                      print(this.selectedDateTime);
                     },
                     child: const Text('Me mostre os NEOs de hoje'),
                   ),
@@ -74,7 +54,7 @@ class MainPageState extends State<MainPage> {
 
   Future<void> searchNeosByDate() async {
     Requisiton req = Requisiton();
-    showSnackBar('Solicitando dados...', 60, Colors.lightBlue);
+    showSnackBar('Solicitando dados...', 60, Colors.blueAccent);
     List<Neo> response = await req.fetch(this.selectedDateTime!);
     setState(() {
       ScaffoldMessenger.of(context).clearSnackBars();
@@ -82,6 +62,29 @@ class MainPageState extends State<MainPage> {
       this.neosContent = response;
     });
     showErrorSnackBar();
+  }
+
+  void showInitialMessage() {
+    Future.delayed(
+      Duration.zero,
+          () => showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Bem-vindo ao NEO'),
+          content: const Text(
+            'Este aplicativo tem como objetivo informar quais os NEOs (Objetos Próximos da Terra) no dia de hoje.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Entendi'),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   void showErrorSnackBar() {
