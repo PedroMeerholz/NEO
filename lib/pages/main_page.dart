@@ -15,16 +15,32 @@ class MainPageState extends State<MainPage> {
   List<Neo> neosContent = [];
 
   @override
+  void initState() {
+    Future.delayed(
+      Duration.zero,
+      () => showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Bem-vindo ao NEO'),
+          content: const Text(
+            'Este aplicativo tem como objetivo informar quais os NEOs (Objetos Próximos da Terra) no dia de hoje.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Entendi'),
+            ),
+          ],
+        ),
+      ),
+    );
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration.zero, () => showDialog(context: context, builder: (context) => AlertDialog(
-      title: const Text('Bem-vindo ao NEO'),
-      content: const Text('Este aplicativo tem como objetivo informar quais os NEOs (Objetos Próximos da Terra) no dia de hoje.'),
-      actions: [
-        TextButton(onPressed: () {
-          Navigator.of(context).pop();
-        }, child: const Text('Entendi'),),
-      ],
-    )));
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -39,24 +55,12 @@ class MainPageState extends State<MainPage> {
                   padding: const EdgeInsets.only(top: 30, bottom: 7),
                   child: ElevatedButton(
                     onPressed: () {
-                      showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(2000),
-                        lastDate: DateTime(3000),
-                      ).then((date) {
-                        String stringDate = date.toString();
-                        setState(() {
-                          this.selectedDateTime = stringDate.substring(0, 10);
-                        });
-                        searchNeosByDate();
-                        print(this.selectedDateTime);
-                      });
+                      searchNeosByDate();
+                      print(this.selectedDateTime);
                     },
-                    child: const Text('Selecione uma data'),
+                    child: const Text('Me mostre os NEOs de hoje'),
                   ),
                 ),
-                Text('Data selecionada: ${this.selectedDateTime}'),
                 Flexible(
                   child: showListView(),
                 ),
@@ -70,7 +74,7 @@ class MainPageState extends State<MainPage> {
 
   Future<void> searchNeosByDate() async {
     Requisiton req = Requisiton();
-    showSnackBar('Solicitando informações da NASA...', 30, Colors.lightBlue);
+    showSnackBar('Solicitando dados...', 60, Colors.lightBlue);
     List<Neo> response = await req.fetch(this.selectedDateTime!);
     setState(() {
       ScaffoldMessenger.of(context).clearSnackBars();
@@ -86,7 +90,6 @@ class MainPageState extends State<MainPage> {
       showSnackBar('Nenhum NEO foi mapeado para esta data!', 5, Colors.red);
     }
   }
-
 
   void showSnackBar(String text, int duration, Color backgroundColor) {
     ScaffoldMessenger.of(context).showSnackBar(
