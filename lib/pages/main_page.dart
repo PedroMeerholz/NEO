@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'package:neo/requisition/requisition.dart';
 import 'package:neo/widgets/list_item.dart';
@@ -11,12 +12,13 @@ class MainPage extends StatefulWidget {
 }
 
 class MainPageState extends State<MainPage> {
-  String dateTime = DateTime.now().toString().substring(0, 10);
+  String? dateTime;
   List<Neo> neosContent = [];
 
   @override
   void initState() {
     showInitialMessage();
+    setDateTime();
     super.initState();
   }
 
@@ -38,7 +40,7 @@ class MainPageState extends State<MainPage> {
                           TextStyle(fontWeight: FontWeight.w500, fontSize: 22)),
                 ),
                 Text(
-                  this.dateTime,
+                  this.dateTime!,
                   style: const TextStyle(
                       fontWeight: FontWeight.w500, fontSize: 16),
                 ),
@@ -100,6 +102,11 @@ class MainPageState extends State<MainPage> {
         ),
       ),
     );
+  }
+
+  void setDateTime() {
+    DateTime dateTime = DateTime.now();
+    this.dateTime = DateFormat('dd/MM/yyyy').format(dateTime);
   }
 
   void showErrorSnackBar() {
