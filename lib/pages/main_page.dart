@@ -16,6 +16,15 @@ class MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    Future.delayed(Duration.zero, () => showDialog(context: context, builder: (context) => AlertDialog(
+      title: const Text('Bem-vindo ao NEO'),
+      content: const Text('Este aplicativo tem como objetivo informar quais os NEOs (Objetos Próximos da Terra) no dia de hoje.'),
+      actions: [
+        TextButton(onPressed: () {
+          Navigator.of(context).pop();
+        }, child: const Text('Entendi'),),
+      ],
+    )));
     return SafeArea(
       child: Scaffold(
         body: Padding(
