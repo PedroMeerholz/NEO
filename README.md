@@ -1,16 +1,7 @@
-# neo
+# NEO
 
-A new Flutter project.
+NEO é um aplicativo desenvolvido em Dart com o framework Flutter, que tem como objetivo mostrar quais os objetos que passarão perto da Terra no dia atual.
 
-## Getting Started
+## Fonte dos dados
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Todas as informações fornecidas através do aplicativo são distribuídas pela NASA através da [API Asteroids - NeoWs](https://api.nasa.gov/).
