@@ -12,13 +12,12 @@ class MainPage extends StatefulWidget {
 }
 
 class MainPageState extends State<MainPage> {
-  String? dateTime;
+  String dateTime = DateTime.now().toString().substring(0, 10);
   List<Neo> neosContent = [];
 
   @override
   void initState() {
     showInitialMessage();
-    setDateTime();
     super.initState();
   }
 
@@ -40,7 +39,7 @@ class MainPageState extends State<MainPage> {
                           TextStyle(fontWeight: FontWeight.w500, fontSize: 22)),
                 ),
                 Text(
-                  this.dateTime!,
+                  setTextDateTime(),
                   style: const TextStyle(
                       fontWeight: FontWeight.w500, fontSize: 16),
                 ),
@@ -104,9 +103,9 @@ class MainPageState extends State<MainPage> {
     );
   }
 
-  void setDateTime() {
+  String setTextDateTime() {
     DateTime dateTime = DateTime.now();
-    this.dateTime = DateFormat('dd/MM/yyyy').format(dateTime);
+    return DateFormat('dd/MM/yyyy').format(dateTime);
   }
 
   void showErrorSnackBar() {
