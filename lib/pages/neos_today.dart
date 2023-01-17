@@ -6,12 +6,12 @@ import 'package:neo/widgets/list_item.dart';
 
 import '../entity/neo.dart';
 
-class MainPage extends StatefulWidget {
+class NeosTodayPage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => MainPageState();
+  State<StatefulWidget> createState() => NeosTodayPageState();
 }
 
-class MainPageState extends State<MainPage> {
+class NeosTodayPageState extends State<NeosTodayPage> {
   String dateTime = DateTime.now().toString().substring(0, 10);
   List<Neo> neosContent = [];
 
