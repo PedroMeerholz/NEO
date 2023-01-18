@@ -21,12 +21,22 @@ class Neo {
   final bool _isPotentiallyHazardousAsteroid;
   final bool _isSentryObject;
 
-  String get returnName => this._name;
+  String get returnName => _name;
 
-  double get returnAbsoluteMagnitudeH => this._absoluteMagnitudeH;
+  double get returnAbsoluteMagnitudeH => _absoluteMagnitudeH;
 
   bool get returnIsPotentiallyHazardousAsteroid =>
-      this._isPotentiallyHazardousAsteroid;
+      _isPotentiallyHazardousAsteroid;
 
-  bool get returnIsSentryObject => this._isSentryObject;
+  bool get returnIsSentryObject => _isSentryObject;
+
+  double get returnMinEstiamtedDiameter => _minEstimatedDiameter;
+
+  double get returnMaxEstimatedDiameter => _maxEstimatedDiameter;
+
+  String get returnCloseApproachDate => _closeApproachDate;
+
+  String get returnKilometersPerSecond => _kilometersPerSecond;
+
+  String get returnMissDistance => _missDistance;
 }
