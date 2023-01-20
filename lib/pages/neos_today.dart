@@ -71,11 +71,11 @@ class NeosTodayPageState extends State<NeosTodayPage> {
   Future<void> searchNeosByDate() async {
     Requisiton req = Requisiton();
     showSnackBar('Solicitando dados...', 60, Colors.blueAccent);
-    List<Neo> response = await req.fetch(this.dateTime);
+    List<Neo> response = await req.fetch(dateTime);
     setState(() {
       ScaffoldMessenger.of(context).clearSnackBars();
       showSnackBar('NEOs encontrados!', 4, Colors.green);
-      this.neosContent = response;
+      neosContent = response;
     });
     showErrorSnackBar();
   }
@@ -109,7 +109,7 @@ class NeosTodayPageState extends State<NeosTodayPage> {
   }
 
   void showErrorSnackBar() {
-    if (this.neosContent.isEmpty == true) {
+    if (neosContent.isEmpty == true) {
       ScaffoldMessenger.of(context).clearSnackBars();
       showSnackBar('Nenhum NEO foi mapeado para esta data!', 5, Colors.red);
     }
@@ -118,7 +118,7 @@ class NeosTodayPageState extends State<NeosTodayPage> {
   void showSnackBar(String text, int duration, Color backgroundColor) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('${text}'),
+        content: Text(text),
         duration: Duration(seconds: duration),
         backgroundColor: backgroundColor,
       ),
@@ -126,12 +126,12 @@ class NeosTodayPageState extends State<NeosTodayPage> {
   }
 
   ListView showListView() {
-    if (!this.neosContent.isEmpty) {
+    if (!neosContent.isEmpty) {
       return ListView(
         shrinkWrap: true,
         scrollDirection: Axis.vertical,
         children: [
-          for (Neo neo in this.neosContent)
+          for (Neo neo in neosContent)
             ListItem(
               name: neo.returnName,
               absoluteMagnitudeH: neo.returnAbsoluteMagnitudeH,

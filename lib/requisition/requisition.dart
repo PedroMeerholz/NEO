@@ -39,7 +39,6 @@ class Requisiton {
       }
       return neos;
     } else {
-      print('Não achei a data');
       return neos;
     }
 
