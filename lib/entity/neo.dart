@@ -30,7 +30,7 @@ class Neo {
 
   bool get returnIsSentryObject => _isSentryObject;
 
-  double get returnMinEstiamtedDiameter => _minEstimatedDiameter;
+  double get returnMinEstimatedDiameter => _minEstimatedDiameter;
 
   double get returnMaxEstimatedDiameter => _maxEstimatedDiameter;
 

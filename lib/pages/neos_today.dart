@@ -133,11 +133,15 @@ class NeosTodayPageState extends State<NeosTodayPage> {
         children: [
           for (Neo neo in this.neosContent)
             ListItem(
-              title: neo.returnName,
+              name: neo.returnName,
               absoluteMagnitudeH: neo.returnAbsoluteMagnitudeH,
+              minEstimatedDiameter: neo.returnMinEstimatedDiameter,
+              maxEstimatedDiameter: neo.returnMaxEstimatedDiameter,
+              closeApproachDate: neo.returnCloseApproachDate,
+              kilometersPerSecond: neo.returnKilometersPerSecond,
+              missDistance: neo.returnMissDistance,
               isPotentiallyHazardousAsteroid:
                   neo.returnIsPotentiallyHazardousAsteroid,
-              isSentryObject: neo.returnIsSentryObject,
             ),
         ],
       );
