@@ -25,42 +25,58 @@ class NeosTodayPageState extends State<NeosTodayPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(40),
-          child: Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 5),
-                  child: Text('Near Earth Objects',
-                      style:
-                          TextStyle(fontWeight: FontWeight.w500, fontSize: 22)),
-                ),
-                Text(
-                  setTextDateTime(),
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w500, fontSize: 16),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 15, bottom: 7),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      searchNeosByDate();
-                    },
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(
-                        Colors.blueAccent,
+        appBar: AppBar(
+          title: const Text(
+            'Near Earth Objects',
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 22,
+            ),
+          ),
+          centerTitle: true,
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(40),
+            child: Center(
+              child: Column(
+                children: [
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(bottom: 5),
                       ),
-                    ),
-                    child: const Text('Me mostre os NEOs de hoje'),
+                      Text(
+                        setTextDateTime(),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: 15,
+                          bottom: 7,
+                        ),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            searchNeosByDate();
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                              Colors.blueAccent,
+                            ),
+                          ),
+                          child: const Text('Me mostre os NEOs de hoje'),
+                        ),
+                      ),
+                      showNeos(),
+                    ],
                   ),
-                ),
-                Flexible(
-                  child: showListView(),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -125,11 +141,9 @@ class NeosTodayPageState extends State<NeosTodayPage> {
     );
   }
 
-  ListView showListView() {
-    if (!neosContent.isEmpty) {
-      return ListView(
-        shrinkWrap: true,
-        scrollDirection: Axis.vertical,
+  Column showNeos() {
+    if (neosContent.isNotEmpty) {
+      return Column(
         children: [
           for (Neo neo in neosContent)
             ListItem(
@@ -146,10 +160,7 @@ class NeosTodayPageState extends State<NeosTodayPage> {
         ],
       );
     } else {
-      return ListView(
-        shrinkWrap: true,
-        scrollDirection: Axis.vertical,
-      );
+      return Column();
     }
   }
 }
