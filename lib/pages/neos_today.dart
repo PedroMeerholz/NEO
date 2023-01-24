@@ -9,19 +9,23 @@ import '../entity/neo.dart';
 
 class NeosTodayPage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => NeosTodayPageState();
+  State<StatefulWidget> createState() => _NeosTodayPageState();
 }
 
-class NeosTodayPageState extends State<NeosTodayPage> {
+class _NeosTodayPageState extends State<NeosTodayPage>
+    with AutomaticKeepAliveClientMixin<NeosTodayPage> {
   String dateTime = DateTime.now().toString().substring(0, 10);
   List<Neo> neosContent = [];
   int index = 0;
 
   @override
   void initState() {
-    //showInitialMessage();
+    showInitialMessage();
     super.initState();
   }
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {

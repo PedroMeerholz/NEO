@@ -9,10 +9,11 @@ import '../entity/neo.dart';
 
 class NeosTomorrowPage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => NeosTomorrowPageState();
+  State<StatefulWidget> createState() => _NeosTomorrowPageState();
 }
 
-class NeosTomorrowPageState extends State<NeosTomorrowPage> {
+class _NeosTomorrowPageState extends State<NeosTomorrowPage>
+    with AutomaticKeepAliveClientMixin<NeosTomorrowPage> {
   String dateTime = _setDate();
   List<Neo> neosContent = [];
   int index = 1;
@@ -20,8 +21,10 @@ class NeosTomorrowPageState extends State<NeosTomorrowPage> {
   @override
   void initState() {
     super.initState();
-    searchNeosByDate();
   }
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +40,7 @@ class NeosTomorrowPageState extends State<NeosTomorrowPage> {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.only(bottom: 5),
                       ),
                       Text(
