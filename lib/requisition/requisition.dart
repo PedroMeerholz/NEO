@@ -4,16 +4,11 @@ import 'dart:convert' as convert;
 import 'package:neo/entity/neo.dart';
 
 class Requisiton {
-  final String _baseUrl = 'api.nasa.gov';
-  final String _unencodedPath = '/neo/rest/v1/feed';
-  final Map<String, String> queryParameters = {
-    'api_key': 'kZTbCFbznzUisBTg0d8d1Hn4taz7AhA4A0V5d7qs'
-  };
+  final Uri url = Uri.http('api.nasa.gov', '/neo/rest/v1/feed',
+      {'api_key': 'kZTbCFbznzUisBTg0d8d1Hn4taz7AhA4A0V5d7qs'});
 
   Future<List<Neo>> fetch(String? dateTime) async {
-    Uri url = Uri.http(_baseUrl, _unencodedPath, queryParameters);
-
-    var response = await http.get(url);
+    http.Response response = await http.get(url);
     Map json = convert.jsonDecode(response.body);
     Map content = json['near_earth_objects'];
     Iterable iterableDates = content.keys; // dates

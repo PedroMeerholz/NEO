@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:neo/pages/neos_tomorrow.dart';
+import 'package:neo/pages/neos_today.dart';
 
 import 'package:neo/requisition/requisition.dart';
 import 'package:neo/widgets/list_item.dart';
 
 import '../entity/neo.dart';
 
-class NeosTodayPage extends StatefulWidget {
+class NeosTomorrowPage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => NeosTodayPageState();
+  State<StatefulWidget> createState() => NeosTomorrowPageState();
 }
 
-class NeosTodayPageState extends State<NeosTodayPage> {
-  String dateTime = DateTime.now().toString().substring(0, 10);
+class NeosTomorrowPageState extends State<NeosTomorrowPage> {
+  String dateTime = _setDate();
   List<Neo> neosContent = [];
-  int index = 0;
+  int index = 1;
 
   @override
   void initState() {
-    //showInitialMessage();
     super.initState();
+    searchNeosByDate();
   }
 
   @override
@@ -37,7 +37,7 @@ class NeosTodayPageState extends State<NeosTodayPage> {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.only(bottom: 5),
                       ),
                       Text(
@@ -61,7 +61,7 @@ class NeosTodayPageState extends State<NeosTodayPage> {
                               Colors.blueAccent,
                             ),
                           ),
-                          child: const Text('Me mostre os NEOs de hoje'),
+                          child: const Text('Me mostre os NEOs de amanhã'),
                         ),
                       ),
                       showNeos(),
@@ -76,6 +76,19 @@ class NeosTodayPageState extends State<NeosTodayPage> {
     );
   }
 
+  static String _setDate() {
+    DateTime now = DateTime.now();
+    DateTime tomorrowDateTime = now.add(const Duration(days: 1));
+    String date = tomorrowDateTime.toString().substring(0, 10);
+    return date;
+  }
+
+  String setTextDateTime() {
+    DateTime now = DateTime.now();
+    DateTime tomorrowDateTime = now.add(const Duration(days: 1));
+    return DateFormat('dd/MM/yyyy').format(tomorrowDateTime);
+  }
+
   Future<void> searchNeosByDate() async {
     Requisiton req = Requisiton();
     showSnackBar('Solicitando dados...', 60, Colors.blueAccent);
@@ -86,36 +99,6 @@ class NeosTodayPageState extends State<NeosTodayPage> {
       neosContent = response;
     });
     showErrorSnackBar();
-  }
-
-  Future<void> loadNeosData() async {}
-
-  void showInitialMessage() {
-    Future.delayed(
-      Duration.zero,
-      () => showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Bem-vindo ao NEO'),
-          content: const Text(
-            'Este aplicativo tem como objetivo informar quais os NEOs (Objetos Próximos da Terra) no dia de hoje.',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Entendi'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  String setTextDateTime() {
-    DateTime dateTime = DateTime.now();
-    return DateFormat('dd/MM/yyyy').format(dateTime);
   }
 
   void showErrorSnackBar() {
@@ -159,11 +142,11 @@ class NeosTodayPageState extends State<NeosTodayPage> {
   }
 
   void alterPage(int index) {
-    if (index == 1) {
+    if (index == 0) {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) {
-          return NeosTomorrowPage();
+          return NeosTodayPage();
         }),
       );
     }
