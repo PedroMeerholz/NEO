@@ -102,7 +102,7 @@ class _NeosTodayPageState extends State<NeosTodayPage>
         builder: (context) => AlertDialog(
           title: const Text('Bem-vindo ao NEO'),
           content: const Text(
-            'Este aplicativo tem como objetivo informar quais os NEOs (Objetos Próximos da Terra) no dia de hoje.',
+            'Este aplicativo tem como objetivo informar quais os NEOs (Objetos Próximos da Terra) no dia de hoje e no dia seguinte.',
           ),
           actions: [
             TextButton(
