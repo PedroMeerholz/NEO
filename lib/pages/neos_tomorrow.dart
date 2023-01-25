@@ -96,18 +96,45 @@ class _NeosTomorrowPageState extends State<NeosTomorrowPage>
     Requisiton req = Requisiton();
     showSnackBar('Solicitando dados...', 60, Colors.blueAccent);
     List<Neo> response = await req.fetch(dateTime);
-    setState(() {
+    if (response.isEmpty) {
       ScaffoldMessenger.of(context).clearSnackBars();
-      showSnackBar('NEOs encontrados!', 4, Colors.green);
-      neosContent = response;
-    });
-    showErrorSnackBar();
+      showErrorMessage();
+    } else {
+      setState(() {
+        ScaffoldMessenger.of(context).clearSnackBars();
+        showSnackBar('NEOs encontrados!', 4, Colors.green);
+        neosContent = response;
+      });
+    }
   }
 
-  void showErrorSnackBar() {
+  void showErrorMessage() {
     if (neosContent.isEmpty == true) {
-      ScaffoldMessenger.of(context).clearSnackBars();
-      showSnackBar('Nenhum NEO foi mapeado para esta data!', 5, Colors.red);
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+            title: const Text('Nenhum NEO encontrado!'),
+            content: SizedBox(
+              height: 155,
+              child: Column(
+                children: const [
+                  Text(
+                      'Existem dois motivos para não encontrarmos nenhum NEO:\n'),
+                  Text('1 - Nenhum NEO foi mapeado para o dia de hoje'),
+                  Text(
+                      '2 - A fonte de dados que utilizamos foi atualizada e não mostram mais os NEOS de hoje'),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('Fechar'),
+              ),
+            ]),
+      );
     }
   }
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:neo/pages/neos_tomorrow.dart';
 
 import 'package:neo/requisition/requisition.dart';
 import 'package:neo/widgets/list_item.dart';
@@ -16,7 +15,6 @@ class _NeosTodayPageState extends State<NeosTodayPage>
     with AutomaticKeepAliveClientMixin<NeosTodayPage> {
   String dateTime = DateTime.now().toString().substring(0, 10);
   List<Neo> neosContent = [];
-  int index = 0;
 
   @override
   void initState() {
@@ -80,20 +78,6 @@ class _NeosTodayPageState extends State<NeosTodayPage>
     );
   }
 
-  Future<void> searchNeosByDate() async {
-    Requisiton req = Requisiton();
-    showSnackBar('Solicitando dados...', 60, Colors.blueAccent);
-    List<Neo> response = await req.fetch(dateTime);
-    setState(() {
-      ScaffoldMessenger.of(context).clearSnackBars();
-      showSnackBar('NEOs encontrados!', 4, Colors.green);
-      neosContent = response;
-    });
-    showErrorSnackBar();
-  }
-
-  Future<void> loadNeosData() async {}
-
   void showInitialMessage() {
     Future.delayed(
       Duration.zero,
@@ -117,16 +101,25 @@ class _NeosTodayPageState extends State<NeosTodayPage>
     );
   }
 
+  Future<void> searchNeosByDate() async {
+    Requisiton req = Requisiton();
+    showSnackBar('Solicitando dados...', 60, Colors.blueAccent);
+    List<Neo> response = await req.fetch(dateTime);
+    if (response.isEmpty) {
+      ScaffoldMessenger.of(context).clearSnackBars();
+      showErrorMessage();
+    } else {
+      setState(() {
+        ScaffoldMessenger.of(context).clearSnackBars();
+        showSnackBar('NEOs encontrados!', 4, Colors.green);
+        neosContent = response;
+      });
+    }
+  }
+
   String setTextDateTime() {
     DateTime dateTime = DateTime.now();
     return DateFormat('dd/MM/yyyy').format(dateTime);
-  }
-
-  void showErrorSnackBar() {
-    if (neosContent.isEmpty == true) {
-      ScaffoldMessenger.of(context).clearSnackBars();
-      showSnackBar('Nenhum NEO foi mapeado para esta data!', 5, Colors.red);
-    }
   }
 
   void showSnackBar(String text, int duration, Color backgroundColor) {
@@ -137,6 +130,36 @@ class _NeosTodayPageState extends State<NeosTodayPage>
         backgroundColor: backgroundColor,
       ),
     );
+  }
+
+  void showErrorMessage() {
+    if (neosContent.isEmpty == true) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+            title: const Text('Nenhum NEO encontrado!'),
+            content: SizedBox(
+              height: 155,
+              child: Column(
+                children: const [
+                  Text(
+                      'Existem dois motivos para não encontrarmos nenhum NEO:\n'),
+                  Text('1 - Nenhum NEO foi mapeado para o dia de hoje'),
+                  Text(
+                      '2 - A fonte de dados que utilizamos foi atualizada e não mostram mais os NEOS de hoje'),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Fechar'),
+              ),
+            ]),
+      );
+    }
   }
 
   Column showNeos() {
@@ -159,17 +182,6 @@ class _NeosTodayPageState extends State<NeosTodayPage>
       );
     } else {
       return Column();
-    }
-  }
-
-  void alterPage(int index) {
-    if (index == 1) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) {
-          return NeosTomorrowPage();
-        }),
-      );
     }
   }
 }
